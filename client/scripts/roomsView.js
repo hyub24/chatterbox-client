@@ -4,13 +4,20 @@ var RoomsView = {
   $select: $('#rooms select'),
 
   initialize: function() {
+    //this.$select.append(`<option${}</option>`);
   },
 
-  render: function() {
-  },
+  // roomRender: function(roomNames) {
+  //   var rooms = RoomsView.render(roomNames);
+  //   this.$select.append(rooms);
+  // },
+
+  // render: _.template(`
+  //     <option class="roomSelect"><%-roomname%></option>
+  //   `),
 
   renderRoom: function(roomName) {
-    this.$select.append(`<div>${roomName}</div>`);
+    this.$select.append(`<option>${roomName}</option>`);
   }
 
 };

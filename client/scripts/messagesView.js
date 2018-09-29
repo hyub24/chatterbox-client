@@ -3,15 +3,30 @@ var MessagesView = {
   $chats: $('#chats'),
 
   initialize: function() {
-    App.fetch(function(data=4) {
-      console.log(data);
-      //MessageView.render
+    // console.log(Messages.dataResults);
+    // for(var i = 0; i<Messages.dataResults.length; i++) {
+    //   MessagesView.initialRender(Messages.dataResults[i]); 
+    // }
+    Parse.readAll((data) => {
+      for(var i = 0; i<data.results.length; i++) {
+        MessagesView.initialRender(data.results[i]);
+      }
+    })
+    // $(document).ready(function() {
+    //   $(".refresh").click(this.initialize);
+    // })
+    $(".refresh").click(function() {
+          Parse.readAll((data) => {
+      for(var i = 0; i<data.results.length; i++) {
+        MessagesView.initialRender(data.results[i]);
+      }
+    })
     });
-    this.$chats.append('<div>sldjf;</div>');
   },
 
-  render: function() {
-    //body here).append($chats);
+  initialRender: function(messages) {
+    var newMessage = MessageView.render(messages);
+    this.$chats.append(newMessage);
   },
 
   renderMessage: function(message) {
@@ -20,6 +35,11 @@ var MessagesView = {
     // debugger;
     //var newMessage = MessageView.render(message); 
     this.$chats.append(newMessage);
+  },
+
+  refresh: function() {
+    // should this be stored inside this method?
+    // when is MessagesView.refresh being called?
   }
 
 };
