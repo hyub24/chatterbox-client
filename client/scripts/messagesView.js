@@ -4,24 +4,43 @@ var MessagesView = {
 
   initialize: function() {
     // console.log(Messages.dataResults);
-    // for(var i = 0; i<Messages.dataResults.length; i++) {
-    //   MessagesView.initialRender(Messages.dataResults[i]); 
-    // }
-    Parse.readAll((data) => {
-      for(var i = 0; i<data.results.length; i++) {
-        MessagesView.initialRender(data.results[i]);
-      }
-    })
-    // $(document).ready(function() {
-    //   $(".refresh").click(this.initialize);
-    // })
-    $(".refresh").click(function() {
-          Parse.readAll((data) => {
-      for(var i = 0; i<data.results.length; i++) {
-        MessagesView.initialRender(data.results[i]);
-      }
-    })
+
+    var showMessages = function() {
+      Parse.readAll((data) => {
+        for(var i = 0; i<data.results.length; i++) {
+          if(!data.results[i].username) {
+            data.results[i].username = 'no username';
+          }
+          if(!data.results[i].text) {
+            data.results[i].text = 'no message';
+          }
+          MessagesView.initialRender(data.results[i]);
+        }
+      })
+    }
+
+    showMessages();
+
+    $(document.body).on('click',  '.username', function(){
+      console.log('you have a friend');
+      $("#chats").empty();
+      //Friends.friendStorage.push($(this).text());
+      Parse.readAll((data) => {
+    
+        for(var i = 0; i<data.results.length; i++) {
+          if(data.results[i].username === $(this).text()) {
+            MessagesView.initialRender(data.results[i]);
+          }
+        }
+      })
+
     });
+
+    $(".refresh").click(function() {
+      $("#chats").empty();
+      showMessages();
+    });
+
   },
 
   initialRender: function(messages) {

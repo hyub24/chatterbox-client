@@ -2,18 +2,21 @@ var FormView = {
 
   $form: $('form'),
 
+
   initialize: function() {
     FormView.$form.on('submit', FormView.handleSubmit);
+
   },
 
   handleSubmit: function(event) {
     // Stop the browser from submitting the form
-    event.preventDefault();
+    //event.preventDefault();
     var inputText = document.getElementById("message").value;
     Parse.create({
-      username: 'sleepy',
+      username: App.username,
       text: inputText,
-      roomname: '8th'
+      roomname: $("#currentRoom option:selected").val()
+
     });
   },
 
